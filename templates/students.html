@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profiles | Mental Analysis Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Profiles</h1>
+            <p>Browse student details and their mental health insights.</p>
+        </header>
+
+        <!-- Input field and button for fetching a student by ID -->
+        <div class="search-container">
+            <input type="text" id="student-id-input" placeholder="Enter Student ID">
+            <button id="fetch-student-btn">Fetch Details</button>
+        </div>
+
+        <div id="student-details" class="student-details">
+            <!-- Student details will be dynamically inserted here -->
+        </div>
+
+        <div id="student-list" class="student-grid">
+            <!-- Student cards will be dynamically inserted here -->
+        </div>
+
+        <div id="pagination" class="pagination">
+            <!-- Pagination buttons will be dynamically inserted here -->
+        </div>
+
+        <div class="button-container">
+            <button id="back-home" onclick="window.location.href='/'">Back to Home</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/students.js') }}"></script>
+</body>
+</html>

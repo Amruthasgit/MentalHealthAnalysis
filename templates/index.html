@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Analysis Project | Welcome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to the Mental Analysis Project</h1>
+            <p>Your personalized portal for student mental health insights.</p>
+        </header>
+        
+        <div class="navigation">
+            <div class="card">
+                <h2>Student Profiles</h2>
+                <p>Search and view student details, including profile pictures.</p>
+                <button id="students-btn">View Students</button>
+            </div>
+            
+            <div class="card">
+                <h2>Medical History</h2>
+                <p>Access students' past medical records and mental health data.</p>
+                <button id="medical-btn">View Medical History</button>
+            </div>
+            
+            <div class="card">
+                <h2>Reports & Records</h2>
+                <p>Analyze mental health trends with comprehensive reports.</p>
+                <button id="records-btn">View Reports</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</body>
+</html>

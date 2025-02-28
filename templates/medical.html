@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Records | Mental Analysis Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        #tableContainer { display: none; } /* Initially hidden */
+        .hidden { display: none; } /* Hide elements by default */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Medical Records</h1>
+
+        <!-- Search Bar -->
+        <div id="searchContainer" class="search-container">
+            <input type="text" id="searchInput" placeholder="Enter Patient ID">
+            <button onclick="searchMedicalRecords()">Search</button>
+        </div>
+
+        <!-- Table Container (Initially Hidden) -->
+        <div id="tableContainer">
+            <button onclick="resetSearch()">Back to Search</button> <!-- Back Button -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Visit Date</th>
+                        <th>Medical Conditions</th>
+                        <th>Allergies</th>
+                        <th>BMI</th>
+                        <th>Diagnosis</th>
+                    </tr>
+                </thead>
+                <tbody id="medical-table-body">
+                    <!-- Data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Message Container for No Records Found -->
+        <div id="message-container" class="hidden"></div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/medical.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Records</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <!-- Load Tableau API -->
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.9.2.min.js"></script>
+
+    <!-- Load the JavaScript File -->
+    <script defer src="{{ url_for('static', filename='js/records.js') }}"></script>
+</head>
+<body>
+    <h1>Mental Health Trends Dashboard</h1>
+
+    <!-- Filter Section -->
+    <div class="filter-container">
+        <label for="medical-condition-filter">Filter by Medical Condition:</label>
+        <select id="medical-condition-filter">
+            <option value="">Select</option>
+            <option value="Diabetes">Diabetes</option>
+            <option value="Hypertension">Hypertension</option>
+            <option value="Depression">Depression</option>
+        </select>
+        <button id="apply-filter-btn">Apply Filter</button>
+        <button id="reset-filter-btn">Reset Filters</button>
+    </div>
+
+    <!-- Tableau Dashboard Container -->
+    <div id="tableau-container"></div>
+
+    <br>
+    <button onclick="goBack()">Back to Home</button>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
