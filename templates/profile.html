@@ -3,26 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Profile | Mental Analysis Project</title>
+    <title>Student Profile | Mind Bloom</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Student Profile</h1>
-            <p>Explore student details and analyze mental health insights.</p>
-        </header>
+    <!-- Reuse same navbar if needed -->
+    <header class="navbar">
+        <div class="nav-left">
+            <img src="{{ url_for('static', filename='img/mental_health_logo.jpg') }}" class="logo" alt="Logo">
+            <span class="site-title">Mental Analysis</span>
+        </div>
+        <nav class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('students_page') }}" class="active">Student Profiles</a>
+            <a href="{{ url_for('medical_page') }}">Medical History</a>
+            <a href="{{ url_for('records') }}">Reports</a>
+            <a href="{{ url_for('charts') }}">Charts</a>
+        </nav>
+    </header>
 
-        <div class="profile-section">
-            <div class="profile-container">
-                <img id="studentImage" src="" alt="Student Image" style="display:none;">
-                <div id="profileData">Loading profile...</div>
+    <!-- Main Profile Section -->
+    <div class="profile-container">
+        <h1>Mind Bloomer</h1>
+        <p class="subheading">Explore student details and analyze mental health insights.</p>
+    
+        <div class="profile-flex">
+            <img id="studentImage" src="" alt="Student Image" class="profile-pic" style="display: none;">
+            <div id="profileData" class="profile-details">
+                <!-- Populated via JS -->
+                Loading profile...
             </div>
         </div>
-
-        <button id="backHome" onclick="window.location.href='/'">Back to Home</button>
+    
+        <!-- <button class="back-button" onclick="window.location.href='/'">Back to Home</button> -->
     </div>
-
+    <!-- Move button OUTSIDE the flex row -->
+<div class="back-button-wrapper">
+    <button class="back-button" onclick="window.location.href='/'">Back to Home</button>
+</div>
     <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 </body>
 </html>

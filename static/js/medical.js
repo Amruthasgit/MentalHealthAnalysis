@@ -1,87 +1,67 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    await fetchMedicalRecords(); // Ensure records are fetched before interactions
+document.addEventListener("DOMContentLoaded", () => {
+    // No prefetching required for individual patient view
 });
 
-// Store medical records globally
-let allMedicalRecords = [];
+async function fetchMedicalRecordById(patientId) {
+    const summaryContainer = document.getElementById("summaryContainer");
+    const searchContainer = document.getElementById("searchContainer");
+    const messageContainer = document.getElementById("message-container");
+    const backSearchBtn = document.getElementById("back-search");
 
-// Fetch all medical records
-async function fetchMedicalRecords() {
-    try {
-        let response = await fetch("/api/medical_records");
-        if (!response.ok) throw new Error("Failed to fetch data");
-        allMedicalRecords = await response.json();
-    } catch (error) {
-        console.error("Error fetching medical data:", error);
-    }
-}
-
-// Format date for display
-function formatDate(dateString) {
-    if (!dateString) return "-";
-    let options = { year: "numeric", month: "short", day: "numeric" };
-    return new Date(dateString).toLocaleDateString("en-US", options);
-}
-
-// Display records in the table
-function displayMedicalRecords(medicalRecords) {
-    let tableBody = document.getElementById("medical-table-body");
-    let messageContainer = document.getElementById("message-container");
-
-    tableBody.innerHTML = "";
-    messageContainer.innerHTML = "";
+    summaryContainer.innerHTML = "";
     messageContainer.classList.add("hidden");
 
-    if (!medicalRecords || medicalRecords.length === 0) {
-        messageContainer.innerHTML = `<p>No records found.</p>`;
-        messageContainer.classList.remove("hidden");
-        document.getElementById("tableContainer").style.display = "none";
-        return;
-    }
-
-    medicalRecords.forEach(record => {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${record.Patient_ID || "-"}</td>
-            <td>${formatDate(record.Date_of_Visit)}</td>
-            <td>${record.Medical_Conditions || "-"}</td>
-            <td>${record.Allergies || "-"}</td>
-            <td>${record.BMI || "-"}</td>
-            <td>${record.diagnosis_records || "-"}</td>
-        `;
-        tableBody.appendChild(row);
-    });
-
-    document.getElementById("tableContainer").style.display = "block";
-    document.getElementById("searchContainer").style.display = "none";
-}
-
-// Search by Patient ID
-async function searchMedicalRecords() {
-    let searchValue = document.getElementById("searchInput").value.trim();
-    let messageContainer = document.getElementById("message-container");
-
-    if (!searchValue) {
-        alert("Please enter a Patient ID.");
-        return;
-    }
-
     try {
-        let response = await fetch(`/api/medical_records/${searchValue}`);
-        if (!response.ok) throw new Error("Failed to fetch search results");
+        const response = await fetch(`/api/medical_records/${patientId}`);
+        if (!response.ok) throw new Error("Record not found");
+        
+        const data = await response.json();
+        const record = data.medical_records[0]; // use the first match
 
-        let data = await response.json();
-        displayMedicalRecords(data.medical_records || []);
+        if (!record) throw new Error("No data");
+
+        // Update visibility
+        searchContainer.style.display = "none";
+        summaryContainer.style.display = "block";
+        backSearchBtn.style.display = "inline-block";
+
+        const div = document.createElement("div");
+        div.className = "summary-card";
+        div.innerText = `${record.Patient_Name || "The patient"} visited on ${formatDate(record.Date_of_Visit)}. ` +
+            `They are suffering from ${record.Medical_Conditions || "unspecified condition"} and have allergies to ${record.Allergies || "none"}. ` +
+            `Surgical history: ${record.Surgical_History || "None"}. BMI: ${record.BMI || "N/A"}. ` +
+            `Diagnosis: ${record.diagnosis_records || "N/A"}. Present condition: ${record.present_condition || "Unknown"}.`;
+
+        summaryContainer.appendChild(div);
     } catch (error) {
-        console.error("Error fetching medical data:", error);
-        displayMedicalRecords([]);
+        summaryContainer.style.display = "none";
+        messageContainer.textContent = "No records found.";
+        messageContainer.classList.remove("hidden");
+        backSearchBtn.style.display = "none";
+        console.error("Error:", error);
     }
 }
 
-// Reset search and show search bar again
+function searchMedicalRecords() {
+    const patientId = document.getElementById("searchInput").value.trim();
+    if (!patientId) return;
+
+    fetchMedicalRecordById(patientId);
+}
+
 function resetSearch() {
-    document.getElementById("searchContainer").style.display = "block";
-    document.getElementById("tableContainer").style.display = "none";
-    document.getElementById("medical-table-body").innerHTML = "";
+    document.getElementById("searchContainer").style.display = "flex";
+    document.getElementById("summaryContainer").style.display = "none";
+    document.getElementById("message-container").classList.add("hidden");
     document.getElementById("searchInput").value = "";
+    document.getElementById("back-search").style.display = "none";
+}
+
+function formatDate(dateString) {
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+    });
 }

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
     // ✅ Extract student_id from URL path instead of search params
     const studentId = window.location.pathname.split("/").pop();  // Gets last part of URL
 

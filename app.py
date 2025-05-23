@@ -10,7 +10,7 @@ app.register_blueprint(medical_routes, url_prefix="/api")
 
 # Define Web Pages
 @app.route("/")
-def home():
+def index():
     return render_template("index.html")
 
 @app.route("/students")
@@ -28,6 +28,12 @@ def profile_page(student_id):
 @app.route('/records')
 def records():
     return render_template('records.html')  # This is the new route
+
+@app.route('/charts')
+def charts():
+    return render_template('charts.html')
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

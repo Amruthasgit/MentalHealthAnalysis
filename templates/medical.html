@@ -1,50 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Records | Mental Analysis Project</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <style>
-        #tableContainer { display: none; } /* Initially hidden */
-        .hidden { display: none; } /* Hide elements by default */
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medical Records | Mind Bloom</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    .hidden { display: none; }
+
+    .summary-container {
+      display: none;
+    }
+
+    .summary-card {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1.5rem auto;
+      max-width: 800px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      box-shadow: 0 0 12px rgba(0,0,0,0.5);
+    }
+
+    .back-search-btn {
+      display: block;
+      margin: 1rem auto;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .back-search-btn:hover {
+      background: #555;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Medical Records</h1>
 
-        <!-- Search Bar -->
-        <div id="searchContainer" class="search-container">
-            <input type="text" id="searchInput" placeholder="Enter Patient ID">
-            <button onclick="searchMedicalRecords()">Search</button>
-        </div>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="{{ url_for('static', filename='img/mental_health_logo.jpg') }}" class="logo" alt="Logo">
+      <span class="site-title">Mind Bloom</span>
+    </div>
+    <nav class="nav-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('students_page') }}">Student Profiles</a>
+      <a href="{{ url_for('medical_page') }}" class="active">Medical History</a>
+      <a href="{{ url_for('records') }}">Reports</a>
+      <a href="{{ url_for('charts') }}">Charts</a>
+    </nav>
+  </header>
 
-        <!-- Table Container (Initially Hidden) -->
-        <div id="tableContainer">
-            <button onclick="resetSearch()">Back to Search</button> <!-- Back Button -->
-            <table>
-                <thead>
-                    <tr>
-                        <th>Patient ID</th>
-                        <th>Visit Date</th>
-                        <th>Medical Conditions</th>
-                        <th>Allergies</th>
-                        <th>BMI</th>
-                        <th>Diagnosis</th>
-                    </tr>
-                </thead>
-                <tbody id="medical-table-body">
-                    <!-- Data will be inserted here -->
-                </tbody>
-            </table>
-        </div>
+  <!-- MAIN CONTENT -->
+  <div class="container medical-section">
+    <h1 class="section-title">Medical Records</h1>
+    <p class="subheading">Search and review mental health-related medical history.</p>
 
-        <!-- Message Container for No Records Found -->
-        <div id="message-container" class="hidden"></div>
-
+    <!-- Search Bar -->
+    <div id="searchContainer" class="search-container">
+      <input type="text" id="searchInput" placeholder="Enter Patient ID" />
+      <button class="btn" onclick="searchMedicalRecords()">Fetch Details</button>
     </div>
 
-    <script src="{{ url_for('static', filename='js/medical.js') }}"></script>
+    <!-- Summary Result -->
+    <div id="summaryContainer" class="summary-container"></div>
+
+    
+    <!-- Inside medical.html -->
+<div class="button-container">
+    <button id="back-search" class="btn dark" onclick="resetSearch()" style="display: none;">Back to Search</button>
+    <button id="back-home" class="btn dark" onclick="window.location.href='/'">Back to Home</button>
+  </div>
+  
+    <!-- No Records Message -->
+    <div id="message-container" class="hidden"></div>
+
+  <script src="{{ url_for('static', filename='js/medical.js') }}"></script>
 </body>
 </html>

@@ -12,9 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("records-btn").addEventListener("click", function () {
-        navigateTo("/records");
+        navigateTo("/charts");
     });
-    document.getElementById("records-btn").addEventListener("click", function () {
-        navigateTo("/records");  // This now directs to the Tableau dashboard
-    });
+    // document.getElementById("records-btn").addEventListener("click", function () {
+    //     navigateTo("/records");  // This now directs to the Tableau dashboard
+    // });
 });

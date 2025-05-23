@@ -27,53 +27,56 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Function to apply filter
-    function applyFilter() {
-        const selectedCondition = document.getElementById("medical-condition-filter").value;
-    
-        if (viz && selectedCondition) {
-            const workbook = viz.getWorkbook();
-            const activeSheet = workbook.getActiveSheet();
-    
-            if (activeSheet.getSheetType() === "dashboard") {
-                const worksheets = activeSheet.getWorksheets();
-                console.log("✅ Available Worksheets:", worksheets.map(sheet => sheet.getName()));
-    
-                // Find the correct worksheet inside the dashboard
-                const targetSheet = worksheets.find(sheet => sheet.getName() === "Top 5 Medical Conditions");
-    
-                if (targetSheet) {
-                    console.log("✅ Found Target Worksheet:", targetSheet.getName());
-    
-                    // Log available filters for debugging field name issues
-                    targetSheet.getFiltersAsync().then(filters => {
-                        console.log("🔍 Available filters:", filters.map(f => f.fieldName));
-                    });
-    
+// Function to apply filter
+function applyFilter() {
+    const selectedCondition = document.getElementById("medical-condition-filter").value;
+
+    if (viz && selectedCondition) {
+        const workbook = viz.getWorkbook();
+        const activeSheet = workbook.getActiveSheet();
+
+        if (activeSheet.getSheetType() === "dashboard") {
+            const worksheets = activeSheet.getWorksheets();
+            console.log("✅ Available Worksheets:", worksheets.map(sheet => sheet.getName()));
+
+            // Find the correct worksheet
+            const targetSheet = worksheets.find(sheet => sheet.getName() === "Top 5 Medical Conditions");
+
+            if (targetSheet) {
+                console.log("✅ Found Target Worksheet:", targetSheet.getName());
+
+                // Check available filters
+                targetSheet.getFiltersAsync().then(filters => {
+                    console.log("🔍 Available filters:", filters.map(f => f.fieldName));
+
+                    // Fixing filter name based on Tableau field
+                    const tableauFilterName = "Medical Conditions"; // Ensure this matches exactly in Tableau
+
+                    if (!filters.some(f => f.fieldName === tableauFilterName)) {
+                        console.error(`❌ The filter '${tableauFilterName}' is not found in Tableau.`);
+                        return;
+                    }
+
                     console.log("🛠️ Selected condition:", selectedCondition);
-    
-                    // Ensure selectedCondition is an array (required for categorical fields)
-                    const filterValue = Array.isArray(selectedCondition) ? selectedCondition : [selectedCondition];
-    
-                    // Clear previous filters before applying a new one
-                    targetSheet.applyFilterAsync("Medical Conditions", [], "ALL_VALUES")
+
+                    // Clear existing filters before applying new one
+                    targetSheet.applyFilterAsync(tableauFilterName, [], tableau.FilterUpdateType.ALL_VALUES)
                     .then(() => {
-                        // Apply the new filter
-                        return targetSheet.applyFilterAsync("Medical Conditions", filterValue, "REPLACE");
+                        return targetSheet.applyFilterAsync(tableauFilterName, [selectedCondition], tableau.FilterUpdateType.REPLACE);
                     })
                     .then(() => console.log(`✅ Filter applied: ${selectedCondition}`))
                     .catch(error => console.error("❌ Error applying filter:", error));
-    
-                } else {
-                    console.error("❌ Target worksheet not found inside the dashboard.");
-                }
+                });
+
             } else {
-                console.error("⚠️ Active sheet is not a dashboard.");
+                console.error("❌ Target worksheet not found inside the dashboard.");
             }
         } else {
-            console.error("❌ Tableau visualization not initialized or no condition selected.");
+            console.error("⚠️ Active sheet is not a dashboard.");
         }
     }
-    
+}
+
     
     // Function to reset filters
     function resetFilters() {

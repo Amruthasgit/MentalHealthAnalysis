@@ -1,39 +1,46 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Analysis Project | Welcome</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mind Bloom</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Welcome to the Mental Analysis Project</h1>
-            <p>Your personalized portal for student mental health insights.</p>
-        </header>
-        
-        <div class="navigation">
-            <div class="card">
-                <h2>Student Profiles</h2>
-                <p>Search and view student details, including profile pictures.</p>
-                <button id="students-btn">View Students</button>
-            </div>
-            
-            <div class="card">
-                <h2>Medical History</h2>
-                <p>Access students' past medical records and mental health data.</p>
-                <button id="medical-btn">View Medical History</button>
-            </div>
-            
-            <div class="card">
-                <h2>Reports & Records</h2>
-                <p>Analyze mental health trends with comprehensive reports.</p>
-                <button id="records-btn">View Reports</button>
-            </div>
-        </div>
-    </div>
 
-    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="{{ url_for('static', filename='img/mental_health_logo.jpg') }}" alt="Logo" class="logo" />
+      <span class="site-title">Mind Bloom</span>
+    </div>
+    <nav class="nav-links">
+        <a href="{{ url_for('index') }}" class="active">Home</a>
+        <a href="{{ url_for('students_page') }}">Student Profiles</a>
+        <a href="{{ url_for('medical_page') }}">Medical History</a>
+        <a href="{{ url_for('records') }}">Reports</a>
+        <a href="{{ url_for('charts') }}">Charts</a>
+      </nav>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <div class="overlay">
+      <div class="hero-content">
+        <h3>Hello, welcome to</h3>
+        <h1>Mental Analysis Portal</h1>
+        <p>Track, support, and understand student mental health better.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fas fa-envelope"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <a href="#features" class="btn">Explore Now</a>
+      </div>
+    </div>
+  </section>
+
 </body>
 </html>
